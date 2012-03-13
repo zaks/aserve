@@ -1370,8 +1370,7 @@ by keyword symbols and not by strings"
   (let* ((error-count 0)
 	 (server *wserver*)
 	 (main-socket (wserver-socket server))
-	 (ipaddrs (wserver-ipaddrs server))
-	 (busy-sleeps 0))
+	 (ipaddrs (wserver-ipaddrs server)))
     (unwind-protect
 
          (loop
