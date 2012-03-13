@@ -1374,11 +1374,11 @@ by keyword symbols and not by strings"
 	 (busy-sleeps 0))
     (unwind-protect
 
-	(loop
-	  (handler-case
-	      (let ((sock (socket:accept-connection main-socket))
-		    (localhost))
-		
+         (loop
+           (handler-case
+               (let ((sock (socket:accept-connection main-socket))
+                     (localhost))
+                 
 		; optional.. useful if we find that sockets aren't being
 		; closed
 		(if* *watch-for-open-sockets*
@@ -1418,16 +1418,9 @@ by keyword symbols and not by strings"
                       (if* (not found-worker-p)
                            then (case looped
                                   (0 nil)
-                                  ((1 2 3) (logmess "all threads busy, pause")
-                                   (if* (>= (incf busy-sleeps) 4)
-                                        then ; we've waited too many times
-                                        (setq busy-sleeps 0)
-                                        (logmess "too many sleeps, will create a new thread")
-                                        (make-worker-thread)))
-			     
-                                  (4 (logmess "forced to create new thread")
+                                  ((1 2 3 4)
+                                     (logmess "forced to create new thread")
                                      (make-worker-thread))
-		    
                                   (5 (logmess "can't even create new thread, quitting")
                                      (return-from http-accept-thread nil)))
 			   
